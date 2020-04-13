@@ -11,5 +11,8 @@
     <simcpux.sourceforge.net.color_select.view.ColorPickerView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <!--<simcpux.sourceforge.net.color_select.view.BallView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
 
 </android.support.constraint.ConstraintLayout>
