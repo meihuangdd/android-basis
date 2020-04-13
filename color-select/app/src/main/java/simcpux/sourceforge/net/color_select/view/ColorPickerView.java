@@ -14,6 +14,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -23,8 +24,10 @@ import android.widget.FrameLayout;
  * @1739783580@qq.com
  */
 public class ColorPickerView extends View {
+    private  final  static String TAG = "ColorPickerView";
     private static final int[] GRAD_COLORS = new int[]{Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA, Color.RED};
     private Paint mPaint;//主颜色选择圈
+    private int mRadius = 400;
     private Paint mPaintIndicators;//颜色选择圈的指标
     private float indicatorsX = 100;        //颜色选择圈默认X坐标
     private float indicatorsY = 100;        //颜色选择圈默认Y坐标
@@ -63,22 +66,27 @@ public class ColorPickerView extends View {
         if (Build.VERSION.SDK_INT >= 11) {
             setLayerType(View.LAYER_TYPE_SOFTWARE, isInEditMode() ? null : mPaint);
         }
+
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-
+        Log.i(TAG, "onLayout: changed"+changed+"left"+left+"top"+top+"rigth"+right+"bottom"+bottom);
+        indicatorsX = getWidth()/2;
+        indicatorsY = getHeight()/2-mRadius;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         buildShader(canvas);
     }
 
@@ -133,7 +141,7 @@ public class ColorPickerView extends View {
         mPaint.setShader(sweepGradient);
         mPaint.setStyle(Paint.Style.STROKE);//设置为空心圆
         mPaint.setStrokeWidth(90);//宽度为100
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, 400, mPaint);
+        canvas.drawCircle(getWidth() / 2, getHeight() / 2, mRadius, mPaint);
         mPaintIndicators.setColor(Color.RED);
         mPaintIndicators.setStyle(Paint.Style.FILL);//设置为空心圆
         canvas.drawCircle(indicatorsX, indicatorsY, indicatorsRadius, mPaintIndicators);
