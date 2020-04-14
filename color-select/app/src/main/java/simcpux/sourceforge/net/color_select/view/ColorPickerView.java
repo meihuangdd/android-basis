@@ -56,13 +56,13 @@ public class ColorPickerView extends View {
     private Bitmap mBackgroundBitmap;
 
 
-
     private Paint mPaintIndicators;//颜色选择圈的指标
     private float indicatorsX = 100;        //颜色选择圈默认X坐标
     private float indicatorsY = 100;        //颜色选择圈默认Y坐标
     private float indicatorsX1 = 0;
     private float indicatorsY1 = 0;
     private int indicatorsRadius = 50;  //颜色选择圈默认半径大小
+    private int smallRoundRadius = 0;  //小圆活动半径
 
 
 
@@ -142,26 +142,23 @@ public class ColorPickerView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 //按下
 //                mColor = mBackgroundBitmap.getPixel((int) event.getX(), (int)event.getY());
-
-                setWH(event.getX(),event.getY(),"big");
-                setWH(event.getX(),event.getY(),"small");
+                setWHs(event);
                 break;
             case MotionEvent.ACTION_MOVE:
                 //移动
 //                mColor = mBackgroundBitmap.getPixel((int) event.getX(), (int)event.getY());
-                setWH(event.getX(),event.getY(),"big");
-                setWH(event.getX(),event.getY(),"small");
+                setWHs(event);
 
                 break;
             case MotionEvent.ACTION_UP:
                 //松开
 //                mColor = mBackgroundBitmap.getPixel((int) event.getX(), (int)event.getY());
-                setWH(event.getX(),event.getY(),"big");
-                setWH(event.getX(),event.getY(),"small");
+                setWHs(event);
 
                 break;
         }
@@ -170,7 +167,23 @@ public class ColorPickerView extends View {
         return true;
     }
 
-
+    private void setWHs(MotionEvent event){
+        smallRoundRadius = mRadius - mStrokeWidth; //小圆活动半径 = 大圆活动半径 - 大圆的变宽
+        if( event.getX() > getWidth()/2 + smallRoundRadius-50 ||
+                event.getX() < getWidth()/2 - smallRoundRadius+50 ||
+                event.getY() >getHeight()/2 + smallRoundRadius-50 ||
+                event.getY() <getHeight()/2 - smallRoundRadius +50){
+            setWH(event.getX(),event.getY(),"big");
+        }else{
+            setWH(event.getX(),event.getY(),"small");
+        }
+    }
+    /**
+     * 设置当前相应触摸圆的坐标
+     * @param getX 当前触摸的宽
+     * @param getY 当前触摸的高
+     * @param type 当前是大圆还是小圆
+     */
     private void setWH(float getX,float getY,String type){
         if(type.equals("big")){
             indicatorsX1 = getX;
@@ -201,6 +214,7 @@ public class ColorPickerView extends View {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void OuterRing(Canvas canvas) {
+
         SweepGradient sweepGradient = new SweepGradient(getWidth() / 2, getHeight() / 2, GRAD_COLORS, null);
         mPaint.setShader(sweepGradient);
         mPaint.setStyle(Paint.Style.STROKE);//设置为空心圆
