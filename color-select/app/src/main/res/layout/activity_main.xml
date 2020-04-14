@@ -9,6 +9,7 @@
     tools:context=".MainActivity">
 
     <simcpux.sourceforge.net.color_select.view.ColorPickerView
+        android:id="@+id/select_color"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <!--<simcpux.sourceforge.net.color_select.view.BallView-->
