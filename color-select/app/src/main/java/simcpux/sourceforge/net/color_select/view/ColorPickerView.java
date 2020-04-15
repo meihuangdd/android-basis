@@ -49,11 +49,11 @@ public class ColorPickerView extends View {
 
     private  final  static String TAG = "ColorPickerView";
     private static final int[] GRAD_COLORS = new int[]{Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA, Color.RED};
+
     private Paint mPaint;//主颜色选择圈
     private int mRadius = 400;
     private int mStrokeWidth = 90;
     private int mColor = 0;
-    private Bitmap mBackgroundBitmap;
 
 
     private Paint mPaintIndicators;//颜色选择圈的指标
@@ -75,7 +75,7 @@ public class ColorPickerView extends View {
     private float brightnessIndicatorsY1 = 0;
     private int brightnessIndicatorsRadius = 20;  //亮度选择圈默认半径大小
 
-//    private  ColorPickerManager colorPickerManager;
+    private OnColorBackListener l;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public ColorPickerView(Context context) {
@@ -101,8 +101,6 @@ public class ColorPickerView extends View {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void init() {
         setClickable(true);
-
-//        size = Math.min(mBackgroundBitmap.getWidth(),mBackgroundBitmap.getHeight());
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintIndicators = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -146,18 +144,15 @@ public class ColorPickerView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 //按下
-//                mColor = mBackgroundBitmap.getPixel((int) event.getX(), (int)event.getY());
                 setWHs(event);
                 break;
             case MotionEvent.ACTION_MOVE:
                 //移动
-//                mColor = mBackgroundBitmap.getPixel((int) event.getX(), (int)event.getY());
                 setWHs(event);
 
                 break;
             case MotionEvent.ACTION_UP:
                 //松开
-//                mColor = mBackgroundBitmap.getPixel((int) event.getX(), (int)event.getY());
                 setWHs(event);
 
                 break;
@@ -220,8 +215,8 @@ public class ColorPickerView extends View {
         mPaint.setStyle(Paint.Style.STROKE);//设置为空心圆
         mPaint.setStrokeWidth(mStrokeWidth);//宽度为100
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, mRadius, mPaint);
-        mPaintIndicators.setColor(ColorUtil.getColor((int)indicatorsX,(int) indicatorsY));
-        mPaintIndicators.setStyle(Paint.Style.FILL);//设置为空心圆
+
+        mPaintIndicators.setStyle(Paint.Style.FILL);//实心圆
         ReviseIndicators();//修正
         canvas.drawCircle(indicatorsX, indicatorsY, indicatorsRadius, mPaintIndicators);
 
@@ -269,5 +264,11 @@ public class ColorPickerView extends View {
         brightnessIndicatorsY = (float) (Math.sin(newAngle)*mRadiusBrightness)+getHeight() /2;
         Log.i(TAG, "ReviseIndicators: newAngle="+newAngle+"indicatorsX="+brightnessIndicatorsX1+"indicatorsY="+brightnessIndicatorsY1);
     }
+    public void setOnColorBackListener(OnColorBackListener l) {
+        this.l = l;
+    }
 
+    public interface OnColorBackListener {
+        public void onColorBack(int a, int r, int g, int b);
+    }
 }

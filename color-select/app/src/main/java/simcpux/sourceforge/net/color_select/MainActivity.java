@@ -8,10 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.madrapps.pikolo.ColorPicker;
+
 import simcpux.sourceforge.net.color_select.view.ColorPickerView;
 
 public class MainActivity extends AppCompatActivity {
     ColorPickerView pickerView;
+    private ColorPicker hslColorPicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         pickerView = findViewById(R.id.select_color);
         ColorPickerView.windowManager = getWindowManager();
         ColorPickerView.activity = this;
+//        hslColorPicker = findViewById(R.id.hsl_color_picker);
 
     }
 

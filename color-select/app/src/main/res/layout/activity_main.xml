@@ -15,5 +15,16 @@
     <!--<simcpux.sourceforge.net.color_select.view.BallView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent" />-->
+    <!--<com.madrapps.pikolo.HSLColorPicker-->
+        <!--android:id="@+id/hsl_color_picker"-->
+        <!--android:layout_width="310dp"-->
+        <!--android:layout_height="310dp"-->
+        <!--app:hue_arc_width="20dp"-->
+        <!--app:hue_indicator_stroke_width="5dp"-->
+        <!--app:indicator_stroke_width="5dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
 </android.support.constraint.ConstraintLayout>
